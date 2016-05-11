@@ -1,0 +1,134 @@
+
+
+<div class="row placeholders" ng-show="collectionResponse == null">
+
+
+
+  <div class="col-xs-6 col-sm-6 placeholder" ng-repeat="(key, val) in resourceSet._links" ng-show="val.templated">
+	<div class="panel panel-default">
+	  <div class="panel-heading"><h3>{{key}}</h3></div>
+	  <div class="panel-body"><a ng-click="load(key, val.href)">{{val.href}} </a></div>
+	</div>
+  </div>
+
+</div>
+
+
+
+<div class="table-responsive" ng-show="collectionResponse != null">
+
+  <h2 class="sub-header">{{collectionRequest.profile.title}} </h2>
+  
+  <div>
+      <p class="text-left ">
+          {{collectionRequest.href}}
+      </p>
+      
+      <p class="text-right">
+          <span>totalElements: {{collectionResponse.page.totalElements}}&nbsp;/&nbsp;</span>
+          <span>itemsPerPage</span>
+          <input type="text" type="number" ng-model="collectionRequest.size" size="2"/>
+      </p>
+  </div>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th ng-repeat="(k, v) in collectionRequest.profile.properties">
+          {{v.title}}({{v.type}})
+          
+          <span ng-show="collectionResponse.page.totalElements > 0 && v.type != 'array'">
+          
+	          <a ng-show="collectionRequest.sort[k] == null" ng-click="collectionRequest.sort[k] = 'desc'; readAll();">
+	              <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
+	          </a>
+	          <a ng-show="collectionRequest.sort[k] == 'desc'" ng-click="collectionRequest.sort[k] = 'asc'; readAll();">
+	              <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+	          </a>
+	          <a ng-show="collectionRequest.sort[k] == 'asc'" ng-click="collectionRequest.sort[k] = null; readAll();">
+	              <span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+	          </a>
+          </span>
+          
+          
+        </th>
+        <th class="text-right" width="100px">
+            <button type="button" class="btn btn-primary btn-xs" ng-click="readAll()">
+                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-primary btn-xs" ng-click="editForm(collectionRequest.name, collectionRequest.href)">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in collectionResponse._embedded[collectionRequest.name]">
+        <td ng-repeat="(k, v) in collectionRequest.profile.properties">
+        
+           <div ng-switch="v.type">
+               <div ng-switch-when="string" ng-switch="v.format">
+                   <div ng-switch-when="uri">
+                       <div ng-include="templates.list_uri"/>
+                   </div>
+                   <div ng-switch-default>
+                       <div ng-include="templates.list_text"/>
+                   </div>
+               </div>
+               <div ng-switch-when="array" >
+                    <div ng-include="templates.list_array"/>
+               </div>
+               <div ng-switch-default>
+                   <div ng-include="templates.list_text"/>
+               </div>
+           </div>
+        </td>
+        
+        
+        
+        <td align="right">
+          <button type="button" class="btn btn-primary btn-xs" ng-click="editForm(collectionRequest.name, collectionRequest.href, item)">
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="btn btn-primary btn-xs" ng-click="deleteForm(item)">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+           </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div align="center" ng-hide="collectionResponse.page.totalElements > 0">
+  
+      No Data. Please click
+      <button type="button" class="btn btn-primary btn-xs" ng-click="editForm(collectionRequest.name, collectionRequest.href)">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+  
+  </div>
+
+
+  <div align="center" ng-show="collectionResponse.page.totalElements > 0">
+      <uib-pagination 
+        ng-model="collectionRequest.page" 
+        ng-change="readAll();"
+        
+        total-items="collectionResponse.page.totalElements"
+        items-per-page="collectionResponse.page.size"
+        max-size="5"
+        
+        previous-text="&lsaquo;"
+        next-text="&rsaquo;" 
+        first-text="&laquo;" 
+        last-text="&raquo;"
+        boundary-links="true" 
+        class="pagination-sm"></uib-pagination>
+  </div>
+
+<!--         
+    itemResponse: <pre>{{itemResponse | prettyJSON}}</pre>
+    itemRequest: <pre>{{itemRequest | prettyJSON}}</pre>
+    collectionRequest: <pre>{{collectionRequest | prettyJSON}}</pre>
+    collectionResponse: <pre>{{collectionResponse | prettyJSON}}</pre>
+ -->
+</div>

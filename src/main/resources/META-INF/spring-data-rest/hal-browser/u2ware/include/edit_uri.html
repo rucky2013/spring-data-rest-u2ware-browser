@@ -1,0 +1,4 @@
+
+<select class="form-control" name="{{k}}" id="{{k}}" ng-model="itemResponse[k]">
+    <option ng-repeat="o in itemResponse[k+'ValueList']" value="{{o.value}}">{{o.name}}</option>
+</select>

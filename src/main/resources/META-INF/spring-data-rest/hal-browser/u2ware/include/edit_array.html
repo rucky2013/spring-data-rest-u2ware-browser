@@ -1,0 +1,30 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th ng-repeat="(k1, v1) in v.items">{{v1.title}}({{v1.type}})</th>
+			<th>&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="c in itemResponse[k]">
+			<td ng-repeat="(k1, v1) in v.items">
+                {{c[k1]}} 
+			</td>
+			<td align="right">
+				<button type="button" class="btn btn-primary btn-xs" ng-click=" itemResponse[k].splice( $index , 1) ">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</button>
+			</td>
+		</tr>
+        <tr>
+			<td ng-repeat="(k1, v1) in v.items">
+                <input type="text" ng-model="itemResponse[k+'Buffer'][k1]"/>
+			</td>
+			<td align="right">
+				<button type="button" class="btn btn-primary btn-xs" ng-click="itemResponse[k].push(itemResponse[k+'Buffer']); itemResponse[k+'Buffer'] = {}">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				</button>
+			</td>
+        </tr>
+    </tbody>
+</table>

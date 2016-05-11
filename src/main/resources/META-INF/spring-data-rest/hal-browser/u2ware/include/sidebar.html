@@ -1,0 +1,5 @@
+<ul class="nav nav-sidebar" >         
+    <li ng-repeat="(key, val) in resourceSet._links" ng-show="val.templated"  ng-class="{ active:key === resource.name }">
+        <a ng-click="load(key, val.href)">{{key}} </a>  
+    </li>
+</ul>
