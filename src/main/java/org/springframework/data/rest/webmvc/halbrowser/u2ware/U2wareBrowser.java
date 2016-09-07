@@ -13,10 +13,6 @@ import org.springframework.web.servlet.view.RedirectView;
 @BasePathAwareController
 public class U2wareBrowser {
 
-	//protected Log logger = LogFactory.getLog(getClass());
-	//HalBrowser f;
-	//RepositoryRestMvcConfiguration cf;
-	
 	public static String BROWSER_INDEX = "/browser/u2ware/index.html";
 	
 	private final RepositoryRestConfiguration configuration;
