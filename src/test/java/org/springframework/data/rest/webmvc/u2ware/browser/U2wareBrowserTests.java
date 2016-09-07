@@ -1,4 +1,4 @@
-package org.springframework.data.rest.webmvc.halbrowser.u2ware;
+package org.springframework.data.rest.webmvc.u2ware.browser;
 
 
 import org.junit.Before;
